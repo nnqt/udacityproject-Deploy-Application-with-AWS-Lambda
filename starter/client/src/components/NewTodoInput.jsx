@@ -9,10 +9,12 @@ export function NewTodoInput({ onNewTodo }) {
 
   const { getAccessTokenSilently } = useAuth0()
 
+  const domain = process.env.REACT_APP_AUTH0_DOMAIN
+
   const onTodoCreate = async (event) => {
     try {
       const accessToken = await getAccessTokenSilently({
-        audience: `https://test-endpoint.auth0.com/api/v2/`,
+        audience: `https://${domain}/api/v2/`,
         scope: 'write:todos'
       })
       const dueDate = calculateDueDate()
