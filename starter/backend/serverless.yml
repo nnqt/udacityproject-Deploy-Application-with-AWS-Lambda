@@ -2,6 +2,7 @@ service: serverless-todo-app
 
 plugins:
   - serverless-iam-roles-per-function
+  - serverless-reqvalidator-plugin
   - serverless-offline
 
 frameworkVersion: '3'

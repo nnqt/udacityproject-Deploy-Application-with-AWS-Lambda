@@ -1,15 +1,16 @@
-import { DynamoDB, QueryCommand } from '@aws-sdk/client-dynamodb'
+import { DynamoDB} from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocument } from '@aws-sdk/lib-dynamodb'
 import { createLogger } from '../utils/logger.mjs'
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import AWSXRay from 'aws-xray-sdk-core';
 
 const logger = createLogger('todo-data-layer')
 
 export class TodoAccess {
   constructor(
-    documentClient = new DynamoDB(),
-    s3Client = new S3Client(),
+    documentClient = AWSXRay.captureAWSv3Client(new DynamoDB()),
+    s3Client = AWSXRay.captureAWSv3Client(new S3Client()),
     todosTable = process.env.TODOS_TABLE,
     createAtIndex = process.env.TODOS_CREATED_AT_INDEX,
     imageS3Bucket = process.env.IMAGES_S3_BUCKET,
